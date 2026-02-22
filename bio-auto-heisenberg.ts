@@ -1,6 +1,5 @@
-import { definePlugin } from "@vencord/utils";
-
-export default definePlugin({
+// كود خام بدون استدعاءات خارجية معقدة
+export default {
     name: "HeisenbergBio",
     description: "تغيير البايو تلقائياً",
     start() {
@@ -10,13 +9,12 @@ export default definePlugin({
             "⚗️ Say my name.",
             "💎 I'm in the empire business.",
             "🔫 Tread lightly.",
-            "🚬 No more half measures.",
-            "💰 I did it for me. I was good at it.",
-            "🧪 Stay out of my territory."
+            "🚬 No more half measures."
         ];
 
         let i = 0;
-        const updateBio = async () => {
+        // @ts-ignore
+        this.interval = setInterval(async () => {
             try {
                 // @ts-ignore
                 const UserProfileUtils = Vencord.Webpack.findByProps("updateProfile");
@@ -25,12 +23,10 @@ export default definePlugin({
                     i = (i + 1) % quotes.length;
                 }
             } catch (e) {}
-        };
-
-        updateBio();
-        this.interval = setInterval(updateBio, 60000);
+        }, 60000);
     },
     stop() {
+        // @ts-ignore
         if (this.interval) clearInterval(this.interval);
     }
-});
+};
